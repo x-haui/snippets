@@ -2,12 +2,12 @@
 # converts the *txt files inside nanoblogger's
 # data directory into a format known by Tinkerer
 TINKERBASE=~/tinkerblog
-BLOG_URL=http://MODIFY.ME
+BLOG_URL=http:\/\/MODIFY.ME
 
 for arg; do
 	TITLE=$(grep -m1 ^TITLE: "$arg" | sed 's#TITLE: ##')
 	TITLELEN=$(wc -c <<< "$TITLE" | cut -d " " -f 1)
-	FILENAME=$(sed -e 'y/[A-Z]/[a-z]/;s#[^a-zA-Z0-9_]#_#g' <<< "$TITLE").rst
+	FILENAME=$(sed -e 's/./\l&/g;s#[^a-zA-Z0-9_]#_#g' <<< "$TITLE").rst
 	DATE=$(grep -m1 ^DATE: "$arg" | sed 's#DATE: ##' | cut -d " " -f 1 | sed 's#-#/#g')
 	BODY_START=$(grep -m1 -n BODY: "$arg" | cut -d : -f 1)
 	LINES=$(wc -l "$arg" | awk '{print $1}')
