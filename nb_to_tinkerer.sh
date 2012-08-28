@@ -8,7 +8,7 @@ for arg; do
 	TITLE=$(grep -m1 ^TITLE: "$arg" | sed 's#TITLE: ##')
 	TITLELEN=$(wc -c <<< "$TITLE" | cut -d " " -f 1)
 	FILENAME=$(sed -e 's/./\l&/g;s#[^a-zA-Z0-9_]#_#g' <<< "$TITLE").rst
-	DATE=$(grep -m1 ^DATE: "$arg" | sed 's#DATE: ##' | cut -d " " -f 1 | sed 's#-#/#g')
+	DATE=$(date -d  "$(grep -m1 ^DATE: "$arg" | sed 's#DATE: ##')" +%Y/%m/%d)
 	BODY_START=$(grep -m1 -n BODY: "$arg" | cut -d : -f 1)
 	LINES=$(wc -l "$arg" | awk '{print $1}')
 	TOREAD=$((LINES - BODY_START))
